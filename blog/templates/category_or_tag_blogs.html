@@ -1,0 +1,28 @@
+{% extends 'base.html' %}
+
+{% block title %} Home {% endblock %}
+
+{% block content %}
+    {% if category %}
+        <h1>{{ category.name }} page</h1>
+    {% else %}
+        <h1>{{ tag.name }} page</h1>
+    {% endif %}
+    <hr>
+    {% for blog in blogs %}
+    <div class="card mb-3">
+        <img style="width: 400px;" src="{{ blog.image.url }}" alt="Bu rasm">
+        <div class="card-body">
+        <h3><a href="#">{{ blog.title }}</a></h3>
+        <p>Sana: {{ blog.created | date:'Y-m-d // h:i' }}</p>
+        <p>{{ blog.description|truncatechars_html:100|safe }}</p>
+        <p>User: {{ blog.user.username }}</p>
+        <p>Ko'rishlar soni: {{ blog.views }}</p>
+        {% for tag in blog.tags.all %}
+            <a href="{% url 'tag_blogs' tag.slug%}">#{{ tag.name }} </a>
+        {% endfor %}
+        <hr>
+        </div>
+    </div>
+    {% endfor %}
+{% endblock %}
